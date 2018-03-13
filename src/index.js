@@ -3,37 +3,30 @@ module.exports = function longestConsecutiveLength(array) {
   return 0;
 }
 
-  if (array.length === 1) {
-    return 1;
-  }
+if (array.length === 1) {
+  return 1;
+}
 
-  function compareNumbers(a, b) {
-    return a - b;
-  }
-	
-	Array.prototype.max = function() {
-  return Math.max.apply(null, this);
-	};
+var max = 0; 
+var temp = new Set();
 
-  var temp = [];
-  var counter = 1;
+for (var i = 0; i < array.length; i++) { 
+    temp.add(array[i]);  
+}
 
-  array.sort(compareNumbers);
-
-  for (var i = 0; i < array.length; i++) { 
-    var curr = array[i];
-
-    if (curr === array[i-1]) {
-      continue;
-    } else if (curr === (array[i-1] + 1)) {
+for (var i = 0; i < array.length; i++) { 
+    var prev = array[i] - 1; 
+    if (!temp.has(prev)) {
+      var curr = array[i];
+      var counter = 1;
+      
+      while (temp.has(curr+1)) {
+        curr++;
         counter++;
-        temp.push(counter);
-    } else {
-      counter = 1;
-      temp.push(counter);
+      }
+			
+      max = Math.max(counter, max); 
     }
-  }
-	
-  var result = Math.max.apply(null, temp);
-  return result;
+}
+return max;
 }
